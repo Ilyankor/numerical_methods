@@ -19,6 +19,10 @@ def transpose(A:np.ndarray) -> np.ndarray:
         return B
     raise ValueError("Matrix must be 2 dimensional.")
 
+# spectral radius
+def spectral_radius(A:np.ndarray) -> float:
+    return np.max(np.absolute(np.linalg.eigvals(A)))
+
 # determinant
 # norms
 # inverse

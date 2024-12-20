@@ -2,12 +2,8 @@ import numpy as np
 from collections.abc import Callable
 
 # bisection method
-def bisection(func:Callable[[float], float], a:float, b:float, tol:float, n_max:int) -> tuple[float, float, int]:
-    '''
-    Bisection Method
-    f : [a,b] -> R
-    
-    '''
+def bisection(func:Callable, a:float, b:float, tol:float=1e-12, n_max:int=1000) -> dict:
+
     # ensure that the interval is valid
     if func(a)*func(b) > 0:
         raise ValueError("The function may not change sign within the interval.")
@@ -16,29 +12,77 @@ def bisection(func:Callable[[float], float], a:float, b:float, tol:float, n_max:
     if a > b:
         a, b = b, a
     
-    i = 0 # iteration counter
-    x = 0.5 * (a + b) # midpoint
-    f_val = func(x) # f(x)
-
-    for i in range(1, n_max+1):
-        # check for tolerance
-        abs_f_val = np.abs(f_val)
-        if abs_f_val < tol:
-            break
-
-        if f_val * func(a) > 0: # root is in [x, b]
-            a = x
-        else: # root is in [a, x]
-            b = x
+    length = b - a # length of the interval
+    
+    for i in range(0, n_max+1):
 
         x = 0.5 * (a + b) # midpoint
-        f_val = func(x) # f(x)
+        f_val = func(x) # function value at midpoint
 
-    # did not converge within n_max
-    if abs_f_val > tol:
-        raise Exception(f"The bisection method did not converge within {n_max} iterations.")
+        if f_val == 0: # check if the zero is found
+            break
 
-    return x, abs_f_val, i-1
+        # stopping criteria
+        length *= 0.5
+        if length < tol:
+            break
+       
+        if f_val * func(a) < 0: # root is in [a, x]
+            b = x
+        else: # root is in [x, b]
+            a = x
+
+    # results
+    result = {
+        "zero": x,
+        "iterations": i,
+    }
+
+    return result
+
+def lazy_bisection(func:Callable, a:float, b:float, tol:float=1e-12, n_max:int=1000) -> dict:
+
+    # ensure that the interval is valid
+    if func(a)*func(b) > 0:
+        raise ValueError("The function may not change sign within the interval.")
+    
+    # ensure that a < b
+    if a > b:
+        a, b = b, a
+    
+    length = b - a # length of the interval
+    
+    for i in range(0, n_max+1):
+
+        x = 0.5 * (a + b) # midpoint
+        f_val = func(x) # function value at midpoint
+
+        # stopping criteria
+        length *= 0.5
+        if length < tol:
+            break
+       
+        if f_val * func(a) <= 0: # root is in [a, x]
+            b = x
+        else: # root is in [x, b]
+            a = x
+
+    # results
+    result = {
+        "zero": x,
+        "iterations": i,
+    }
+
+    return result
+
+
+# chord method
+# secant method
+# regula falsi
+# newton's method
+# quasi Newton
+# modified newton
+
 
 # fixed point iteration
 def fix_point(func:Callable, x0:float, tol:float, n_max:int, actual:float) -> tuple[float, float, float, list]:
@@ -169,7 +213,6 @@ def graddes(f,df,U0):
 
 # See Newton’s method on the next page…
 # Newton’s Method with Python:
-import numpy as np
 # A function for Newton's method with g:R^n->R^n
 def g(U):
     return np.array([4.*U[0]**3-3.*U[1]**2-3.,-6.*U[0]*U[1]+4.*U[1]**3+1.])

@@ -72,3 +72,47 @@ def taylor3(g,gt,gy,gty,gyy,gtt,h,n,t0,y0):
         y = y + g(t,y)*h + 0.5*(gt(t,y) + gy(t,y)*g(t,y))*h**2 + (z1+z2)*h**3/6.0
         t = t + h
     return y
+
+
+# function u_new = LaxWen(u_old, T)
+#     N = length(u_old);
+#     u_new = zeros(N,1);
+    
+#     u_new(1:N-1) = u_old(1:N-1) + T*u_old(1:N-1);
+#     u_new(N) = u_new(1);
+# end
+
+# function u_new = eulerstep(Tdx, u_old, dt)
+#     N = length(u_old);
+#     u_new = zeros(N,1);
+
+#     u_new(2:N-1) = u_old(2:N-1) + dt*Tdx*u_old(2:N-1);
+# end
+
+
+# function y = twopBVP(fvec, alpha, beta, L, N)
+#     % fvec: values of f
+#     % y(0) = alpha, y(L) = beta
+#     % N: number of interior points
+
+#     % discrete Laplace operator
+#     vec1 = ones(N, 1); 
+#     A = spdiags([vec1 -2*vec1 vec1], -1:1, N, N);
+
+#     % construct right side
+#     h = L/(N + 1);
+
+#     % boundary conditions
+#     bc = sparse(N, 1);
+#     bc(1) = alpha;
+#     bc(N) = beta;
+
+#     b = h^2 .* fvec - bc;
+
+#     % solve the system
+#     y = A \ b;
+
+#     % add the boundary conditions
+#     y = [alpha; y; beta];
+    
+# end

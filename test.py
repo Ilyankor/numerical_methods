@@ -1,17 +1,13 @@
 import numpy as np
-from utils.utils import is_2d, is_square
-from linear.matrices import transpose
+from linear.matrices import norm
 
 # test matrices
 A = [
-    [0, complex(1,-1), 2],
-    [1, 2, 3],
-    [8, 8, 4],
-    [9, 0, 5]
+    [-3, complex(5, 2), 7],
+    [2, 6, 4],
+    [0, 2, 8],
 ]
 
-# print(is_2d(A))
-# print(is_square(A))
+print(norm(A, "2"))
 
-print(np.array(A))
-print(transpose(A))
+print(np.linalg.norm(A, 2))

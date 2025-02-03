@@ -8,4 +8,4 @@ These include
 
 `utils` is used only as helper functions for the main functions.
 
-`not_created.txt` shows all the functions usedthat I have not implemented from scratch.
+`not_created.txt` shows all the functions used that I have not implemented from scratch.

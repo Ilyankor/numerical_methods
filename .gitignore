@@ -1,7 +1,3 @@
 .DS_Store
-.venv/
-__pycache__/
-image_methods.txt
-linear_algebra_methods.txt
-zeros.txt
-test.py
+.venv
+temp

@@ -1,11 +1,8 @@
 # Numerical methods
 
-An implementation of all numerical methods learned from courses I have taken.
+A collection of numerical methods from courses I have taken.
 
-These include
+These include methods from areas like differential equations, image processing, linear algebra, optimization, root finding.
+The corresponding folders are `diffeq`, `image`, `linear`, `opt`, `roots`.
 
-`diffeq`, `image`, `linear`, `zeros`
-
-`utils` is used only as helper functions for the main functions.
-
-`not_created.txt` shows all the functions used that I have not implemented from scratch.
+The file `log.txt` contains more information about the courses and methods.

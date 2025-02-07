@@ -1,9 +1,0 @@
-numpy.array
-numpy.linalg.svd
-numpy.sum
-numpy.max
-numpy.abs
-
-numpy.ndarray
-numpy.ndarray.ndim
-numpy.ndarray.shape

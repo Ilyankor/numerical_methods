@@ -1,31 +1,49 @@
-MATH 4364: Introduction to Scientific Computing sp2022 jeffmorgan
+#####################################################################
 
-Assignements
+Name     : Introduction to Numerical Analysis in Scientific Computing
+Code     : MATH 4364
+Semester : Spring 2022
 
-methods discussed but not implemented
+ASSIGNMENTS
 
-MATH 4365: Numerical Differential Equations sp2023 jiwenhe
+Fill In The Blanks
+Written Homeworks
 
-Assignements
+METHODS discussed but not implemented
 
-methods discussed but not implemented
+#####################################################################
 
+Name     : Numerical Methods for Differential Equations
+Code     : MATH 4365
+Semester : Spring 2023
 
-MATH 6397: image processing methods sp2024 nicolascharon
+ASSIGNMENTS
 
-Assignements
+Homeworks
+Projects
 
-methods discussed but not implemented
+METHODS discussed but not implemented
 
-MATH 6370: numerical analsis 1 fa2024 annalisaquaini
+#####################################################################
 
-Assignements
+Name     : Spectral and Variational Methods in Image Processing
+Code     : MATH 6397
+Semester : Spring 2024
 
-methods discussed but not implemented
+ASSIGNMENTS
 
-math 6467: optimization theory 2 sp 2025 andreasmang
+Homeworks
 
-Assignements
+METHODS discussed but not implemented
 
-methods discussed but not implemented
+#####################################################################
 
+Name     : Numerical Analysis 1
+Code     : MATH 6370
+Semester : Fall 2024
+
+ASSIGNMENTS
+
+Homeworks
+
+METHODS discussed but not implemented

@@ -11,6 +11,16 @@ Written Homeworks
 
 METHODS discussed but not implemented
 
+bisection
+chord
+secant
+regula falsi
+newtons
+fixed point
+modified newton
+aitken's method
+lazy bisection
+
 #####################################################################
 
 Name     : Numerical Methods for Differential Equations
@@ -36,6 +46,51 @@ Homeworks
 
 METHODS discussed but not implemented
 
+lp norm
+sobolev norm
+total variation pseudonorm
+bounded variation norm
+low, high, band pass filters via ft
+image compression via ft
+image zooming via ft
+image interpolation via ft
+subpixel translation via ft
+add noise to image
+linear filtering for denoising
+median filter for denoising
+H1 denoising via gradient descent
+H1 denoising via conjugate gradient
+H1 denoising via ft
+snr
+tv denoising via gradient descent
+tv denoising via split bregman
+phi function denoising with split bregman
+bilateral filter
+nonlocal means
+wiener filter
+tv restoration
+phi function restoration
+tv inpainting
+segmentation via LoG filter
+segmentation via automatic threshold selection
+segmentation via otsu's method
+chan-vese segmentation via gradient descent
+chan-vese segmntation via semiimplicit gauss-seidel and anisotropic diffusion, reinitialization
+chan-vese segmentation with convex formulation
+wavelet denoising
+edge and texture detection with wavelets
+image comopression via wavelets
+wavelet inpainting
+histogram matching
+histogram equalization
+histograms cdf pdf
+power spectrum
+butterworth lowpass filter
+radon transform
+H1 regularization variant
+blind deconvolution
+lucy richardson deblurring
+
 #####################################################################
 
 Name     : Numerical Analysis 1
@@ -47,3 +102,35 @@ ASSIGNMENTS
 Homeworks
 
 METHODS discussed but not implemented
+
+LINEAR SYSTEMS
+forward substitution
+backward substitution
+LU factorization by Gaussian elimination
+Gaussian elimination with pivoting (PLU factorization)
+complete pivoting
+determinant
+Thomas algorithm
+Cholesky factorization
+QR factorization
+Gram schmidt
+block LU LDMT
+block tridiagonal
+(Cuthill-McKee, reverse Cuthill-McKee for sparse matrices)
+preconditioned Richardson's method
+Jacobi method, jacobi over-relaxation
+Gauss-seidel method, gauss-seidel over-relax
+gradient method, preconditioned
+conjugate gradient method, preconditioned
+Krylov methods (Arnoldi (FOM), GMRES)
+least squares via QR factorization
+SVD
+
+EIGENVALUES
+power method
+inverse power method
+qr interation
+Jacobi method
+Lanczos method
+
+

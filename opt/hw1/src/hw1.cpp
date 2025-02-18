@@ -94,11 +94,11 @@ int main()
             niter = 3000;
 
             v = randomMatrix(m, n);
-            x0 = randomMatrix(n, 1);
             b = randomMatrix(m, 1, 0.0, 1.0);
+            x0 = randomMatrix(n, 1);
             
             // projected subgradient
-            init_q6(v.data(), x0.data(), b.data(), &m, &n, &niter);
+            init_q6(v.data(), b.data(), x0.data(), &m, &n, &niter);
 
             // graph results
             system("python src/hw1.py 6");

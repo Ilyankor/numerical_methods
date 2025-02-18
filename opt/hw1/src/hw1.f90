@@ -25,30 +25,30 @@ contains
     end subroutine init_q6
 
 
-    subroutine init_q7(c, A, x0, b, c, m, n, rho, niter) bind(C, name="init_q6")
-        ! Executes question 7.
+    ! subroutine init_q7(c, A, x0, b, c, m, n, rho, niter) bind(C, name="init_q6")
+    !     ! Executes question 7.
 
-        integer(c_int), intent(in)                  :: m, n, niter  ! rows, cols, num iterations
-        real(dp), dimension(n), intent(in)          :: c            ! objective vector
-        real(dp), dimension(m, n), intent(inout)    :: A            ! mxn matrix A
-        real(dp), dimension(n), intent(inout)       :: x0           ! initial guess
-        real(dp), dimension(m), intent(in)          :: b            ! rhs
-        real(dp), intent(in)                        :: rho          ! aug Lagrangian param
+    !     integer(c_int), intent(in)                  :: m, n, niter  ! rows, cols, num iterations
+    !     real(dp), dimension(n), intent(in)          :: c            ! objective vector
+    !     real(dp), dimension(m, n), intent(inout)    :: A            ! mxn matrix A
+    !     real(dp), dimension(n), intent(inout)       :: x0           ! initial guess
+    !     real(dp), dimension(m), intent(in)          :: b            ! rhs
+    !     real(dp), intent(in)                        :: rho          ! aug Lagrangian param
 
-        real(dp), dimension(n, niter+1)             :: x            ! store x results
-        real(dp), dimension(m, niter+1)             :: lambda       ! store Lagrandrian results
+    !     real(dp), dimension(n, niter+1)             :: x            ! store x results
+    !     real(dp), dimension(m, niter+1)             :: lambda       ! store Lagrandrian results
 
-        ! apply primal dual subgradient
+    !     ! apply primal dual subgradient
 
 
-        ! write information
-        call write_info(c, n, 1, "./out/7/c.dat")
-        call write_info(A, m, n, "./out/7/A.dat")
-        call write_info(x0, n, 1, "./out/7/x0.dat")
-        call write_info(b, m, 1, "./out/7/b.dat")
-        call write_info(x, m+n, niter+1, "./out/7/x.dat")
+    !     ! write information
+    !     call write_info(c, n, 1, "./out/7/c.dat")
+    !     call write_info(A, m, n, "./out/7/A.dat")
+    !     call write_info(x0, n, 1, "./out/7/x0.dat")
+    !     call write_info(b, m, 1, "./out/7/b.dat")
+    !     call write_info(x, m+n, niter+1, "./out/7/x.dat")
 
-    end subroutine init_q7
+    ! end subroutine init_q7
 
 
     subroutine write_info(A, m, n, name)
@@ -117,7 +117,7 @@ contains
     end subroutine proj_subgradient
 
 
-    subroutine primal_dual(A, x0, b, m, n, rho, niter, x)
-    end subroutine primal_dual
+    ! subroutine primal_dual(A, x0, b, m, n, rho, niter, x)
+    ! end subroutine primal_dual
 
 end module hw1

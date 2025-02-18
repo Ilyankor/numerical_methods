@@ -39,12 +39,17 @@ def hw1p6() -> None:
     return None
 
 
+def hw1p7() -> None:
+    return None
+
+
 def main() -> None:
     num = sys.argv[1]
     
     if num == "6":
         hw1p6()
-    # elif num == "7":
+    elif num == "7":
+        hw1p7()
     else:
         sys.exit()
 

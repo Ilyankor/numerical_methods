@@ -1,6 +1,8 @@
-.DS_Store
 .venv
-*.mod
 .vscode
+*.DS_Store
+*.mod
+*.zsh
+
 main
 out/

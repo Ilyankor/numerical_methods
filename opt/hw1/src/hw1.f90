@@ -14,7 +14,7 @@ contains
         real(dp), dimension(n, niter+1)             :: x            ! store results
         
         ! apply projected subgradient
-        call proj_subgradient(A, x0, b, m, n, niter, x)
+        call proj_subgradient(A, b, x0, m, n, niter, x)
 
         ! write information
         call write_info(A, m, n, "./out/6/A.dat")
@@ -25,30 +25,31 @@ contains
     end subroutine init_q6
 
 
-    ! subroutine init_q7(c, A, x0, b, c, m, n, rho, niter) bind(C, name="init_q6")
-    !     ! Executes question 7.
+    subroutine init_q7(c, A, b, x0, m, n, rho, niter) bind(C, name="init_q7")
+        ! Executes question 7.
 
-    !     integer(c_int), intent(in)                  :: m, n, niter  ! rows, cols, num iterations
-    !     real(dp), dimension(n), intent(in)          :: c            ! objective vector
-    !     real(dp), dimension(m, n), intent(inout)    :: A            ! mxn matrix A
-    !     real(dp), dimension(n), intent(inout)       :: x0           ! initial guess
-    !     real(dp), dimension(m), intent(in)          :: b            ! rhs
-    !     real(dp), intent(in)                        :: rho          ! aug Lagrangian param
+        integer(c_int), intent(in)              :: m, n, niter  ! rows, cols, num iterations
+        real(dp), dimension(n), intent(in)      :: c            ! objective vector
+        real(dp), dimension(m, n), intent(in)   :: A            ! mxn matrix A
+        real(dp), dimension(m), intent(in)      :: b            ! rhs
+        real(dp), dimension(n), intent(in)      :: x0           ! initial guess
+        real(dp), intent(in)                    :: rho          ! aug Lagrangian param
 
-    !     real(dp), dimension(n, niter+1)             :: x            ! store x results
-    !     real(dp), dimension(m, niter+1)             :: lambda       ! store Lagrandrian results
+        real(dp), dimension(n, niter+1)         :: x            ! store x results
+        real(dp), dimension(m, niter+1)         :: lam          ! store Lagrangian results
 
-    !     ! apply primal dual subgradient
+        ! apply primal dual subgradient
+        call primal_dual(c, A, b, x0, m, n, rho, niter, x, lam)
 
+        ! write information
+        call write_info(c, n, 1, "./out/7/c.dat")
+        call write_info(A, m, n, "./out/7/A.dat")
+        call write_info(b, m, 1, "./out/7/b.dat")
+        call write_info(x0, n, 1, "./out/7/x0.dat")
+        call write_info(x, n, niter+1, "./out/7/x.dat")
+        call write_info(lam, m, niter+1, "./out/7/lam.dat")
 
-    !     ! write information
-    !     call write_info(c, n, 1, "./out/7/c.dat")
-    !     call write_info(A, m, n, "./out/7/A.dat")
-    !     call write_info(x0, n, 1, "./out/7/x0.dat")
-    !     call write_info(b, m, 1, "./out/7/b.dat")
-    !     call write_info(x, m+n, niter+1, "./out/7/x.dat")
-
-    ! end subroutine init_q7
+    end subroutine init_q7
 
 
     subroutine write_info(A, m, n, name)
@@ -67,7 +68,7 @@ contains
     end subroutine write_info
 
     
-    subroutine proj_subgradient(A, x0, b, m, n, niter, x)
+    subroutine proj_subgradient(A, b, x0, m, n, niter, x)
         ! Applies the projected subgradient descent method to the problem
         ! minimize |x|_1 (l1 norm)
         ! subject to Ax = b
@@ -75,8 +76,8 @@ contains
 
         integer(c_int), intent(in)              :: m, n, niter  ! rows, cols, num iterations
         real(dp), dimension(m, n), intent(in)   :: A            ! mxn matrix A
-        real(dp), dimension(n), intent(inout)   :: x0           ! initial guess
         real(dp), dimension(m), intent(in)      :: b            ! rhs
+        real(dp), dimension(n), intent(inout)   :: x0           ! initial guess
 
         real(dp), dimension(n)                  :: g            ! subgradient
         real(dp), dimension(n, niter+1), intent(out) :: x       ! store results
@@ -109,7 +110,7 @@ contains
             y = matmul(A, g)                                    ! y = Ag
             call dgetrs('N', m, 1, AAT, m, ipiv, y, m, info)    ! y = (A*A^T)^-1*(Ag)
             
-            xk = xk - (1.0_dp/i) * (g - matmul(AT, y))          ! xk = xk - t(g - A^Ty)
+            xk = xk - (1.0_dp / real(i, dp)) * (g - matmul(AT, y))  ! xk = xk - t(g - A^Ty)
             x(:, i+1) = xk                                      ! store result
 
         end do
@@ -117,7 +118,65 @@ contains
     end subroutine proj_subgradient
 
 
-    ! subroutine primal_dual(A, x0, b, m, n, rho, niter, x)
-    ! end subroutine primal_dual
+    subroutine primal_dual(c, A, b, x0, m, n, rho, niter, x, lam)
+        ! Applies the primal dual subgradient descent method to the problem
+        ! minimize c*x
+        ! subject to Ax <= b
+
+        integer(c_int), intent(in)              :: m, n, niter  ! rows, cols, num iterations
+        real(dp), dimension(n), intent(in)      :: c            ! objective vector
+        real(dp), dimension(m, n), intent(in)   :: A            ! mxn matrix A
+        real(dp), dimension(m), intent(in)      :: b            ! rhs
+        real(dp), dimension(n), intent(in)      :: x0           ! initial guess
+        real(dp), intent(in)                    :: rho          ! aug Lagrangian param
+
+        real(dp), dimension(n, niter+1), intent(out) :: x       ! store x results
+        real(dp), dimension(m, niter+1), intent(out) :: lam     ! store Lagrangian results
+
+        real(dp), dimension(n, m)               :: AT           ! A^T
+        real(dp), dimension(n, m)               :: AT_copy      ! copy of A^T
+        real(dp), dimension(n)                  :: xk           ! xk
+        real(dp), dimension(m)                  :: lamk         ! lamdak
+        real(dp), dimension(m)                  :: y            ! y = Ax - b
+        real(dp), dimension(n)                  :: T1           ! KKT operator
+        real(dp)                                :: T            ! norm of KKT operator
+        real(dp)                                :: alph         ! step size
+    
+        integer                                 :: i, j         ! iterators
+
+        ! store computations
+        AT = transpose(A)
+        AT_copy = AT
+
+        ! initial guesses
+        x(:, 1) = x0
+        xk = x0
+        lam(:, 1) = 0
+        lamk = 0
+
+        ! primal dual subgradient method
+        do i = 1, niter
+            y = matmul(A, xk) - b                   ! y = Ax - b
+            do j = 1, m
+                if (y(j) .le. 0) then
+                    y(j) = 0                        ! y = (Ax - b)+
+                    AT(:, j) = 0                    ! modified AT
+                end if
+            end do
+
+            T1 = c + matmul(AT, lamk + rho * y)     ! first elem of KKT
+            T = norm2([ norm2(T1), norm2(y) ])      ! norm of KKT
+            alph = 1.0_dp / (real(i, dp) * T)       ! step size
+
+            xk = xk - alph * T1                     ! xk+1
+            lamk = lamk + alph * y                  ! lamk+1
+
+            x(:, i+1) = xk                          ! store xk
+            lam(:, i+1) = lamk                      ! store lamk
+
+            AT = AT_copy                            ! reset AT
+        end do
+
+    end subroutine primal_dual
 
 end module hw1

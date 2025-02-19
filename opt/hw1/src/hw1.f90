@@ -25,7 +25,7 @@ contains
     end subroutine init_q6
 
 
-    subroutine init_q7(c, A, b, x0, m, n, rho, niter) bind(C, name="init_q7")
+    subroutine init_q7(c, A, b, x0, rho, m, n, niter) bind(C, name="init_q7")
         ! Executes question 7.
 
         integer(c_int), intent(in)              :: m, n, niter  ! rows, cols, num iterations
@@ -37,7 +37,7 @@ contains
 
         real(dp), dimension(n, niter+1)         :: x            ! store x results
         real(dp), dimension(m, niter+1)         :: lam          ! store Lagrangian results
-
+        
         ! apply primal dual subgradient
         call primal_dual(c, A, b, x0, m, n, rho, niter, x, lam)
 
@@ -142,7 +142,8 @@ contains
         real(dp)                                :: T            ! norm of KKT operator
         real(dp)                                :: alph         ! step size
     
-        integer                                 :: i, j         ! iterators
+        integer                                 :: i            ! iterator
+        logical, dimension(m)                   :: indices      ! array mask for y
 
         ! store computations
         AT = transpose(A)
@@ -157,15 +158,12 @@ contains
         ! primal dual subgradient method
         do i = 1, niter
             y = matmul(A, xk) - b                   ! y = Ax - b
-            do j = 1, m
-                if (y(j) .le. 0) then
-                    y(j) = 0                        ! y = (Ax - b)+
-                    AT(:, j) = 0                    ! modified AT
-                end if
-            end do
+            indices = y .gt. 0.0_dp                 ! j such that y(j) > 0
+            y = merge(y, 0.0_dp, indices)           ! y = (Ax - b)+
+            AT = merge(AT, 0.0_dp, spread(indices, 1, n)) ! modified AT
 
             T1 = c + matmul(AT, lamk + rho * y)     ! first elem of KKT
-            T = norm2([ norm2(T1), norm2(y) ])      ! norm of KKT
+            T = sqrt(norm2(T1)**2 + norm2(y)**2)    ! norm of KKT
             alph = 1.0_dp / (real(i, dp) * T)       ! step size
 
             xk = xk - alph * T1                     ! xk+1

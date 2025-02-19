@@ -9,6 +9,7 @@ extern "C"
     void init_q7(double* c, double* A, double* b, double* x0, const double* rho, const int* m, const int* n, const int* niter);
 }
 
+
 // query question number
 int getQuestion()
 {
@@ -117,7 +118,7 @@ int main()
             v = randomMatrix(m, n);
             b = randomMatrix(m, 1);
             x0 = randomMatrix(n, 1);
-            
+
             // primal dual subgradient
             init_q7(c.data(), v.data(), b.data(), x0.data(), &rho, &m, &n, &niter);
 

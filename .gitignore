@@ -6,3 +6,6 @@
 
 main
 out/
+in/
+.mypy_cache
+__pycache__

@@ -105,7 +105,6 @@ def question_4() -> None:
     return None
 
 
-# question 5
 def question_5() -> None:
     print("\nQUESTION 5\n")
 

@@ -139,8 +139,6 @@ def visualize(question: int, arr: dict[str, NDArray[np.float64]], show: bool = T
             plt.legend()
             plt.grid(True)
 
-            plt.plot()
-
             # save the plot
             if save:
                 filepath = Path("out/4/graph.pdf")

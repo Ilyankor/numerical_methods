@@ -20,4 +20,4 @@ To start, run `main.py`.
 
 - `algo.py` contains the main algorithms: Euler's method, Runge-Kutta order 4, and Heun's method.
 - `func.py` contains the predator prey model and the SIR model.
-- `util.py` contains functions for visualization.
+- `util.py` contains functions for saving arrays and visualization.

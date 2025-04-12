@@ -78,7 +78,7 @@ def rk4(
     y = np.zeros((n+1, k))
     y[0, :] = y0
 
-    # Rungge-Kutta 4th order
+    # Runge-Kutta 4th order
     for i in range(n):
         s1 = f(t[i], y[i, :], **kwargs)
         s2 = f(t[i] + 0.5 * h, y[i, :] + 0.5 * h * s1, **kwargs)
